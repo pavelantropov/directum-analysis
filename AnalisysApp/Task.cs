@@ -1,4 +1,6 @@
-﻿namespace AnalysisApp;
+﻿using System.Xml;
+
+namespace AnalysisApp;
 
 public static class Task
 {
@@ -14,6 +16,7 @@ public static class Task
 
             if (startElEndex != -1)
             {
+                // Много вложенных условий
                 if (line[startElEndex - 1] == '<')
                 {
                     var endElIndex = line.IndexOf('>', startElEndex - 1);
@@ -35,13 +38,25 @@ public static class Task
                 }
             }
         }
-
+        
         return result;
     }
-    
-    // Updated function
-    public static string Func2(string input, string elementName, string attrName)
+
+    // Updated algorithm
+    public static string? Func2(string input, string elementName, string attrName)
     {
         throw new NotImplementedException();
+    }
+
+    // Simple version
+    public static string? Func3(string input, string elementName, string attrName)
+    {
+        var xml = File.ReadAllText(input);
+        var doc = new XmlDocument();
+        doc.LoadXml(xml);
+
+        var element = doc.GetElementsByTagName(elementName);
+
+        return element[0]?.Attributes?[attrName]?.Value;
     }
 }
